@@ -1,7 +1,7 @@
 import requests
 from app.features.roles import roles
 from app.features.models import user, books, book_requests, checkout_list
-from app.features.forms import login_form, sign_up_form, edit_profile_form, order_form, checkout_form, promotion_form
+from app.features.forms import login_form, sign_up_form, edit_profile_form, order_form, checkout_form, role_change_form
 from flask import session, request, flash, redirect, render_template, url_for
 from flask_login import login_user, logout_user, fresh_login_required, current_user, login_required
 from datetime import datetime
@@ -42,9 +42,11 @@ def login():
     if form.validate_on_submit():
         site_user = user.query.filter_by(username=form.username.data).first()
         if site_user and site_user.check_password(form.password.data) == True:
-            login_user(site_user)
-
-            return redirect('/home/')
+            if site_user.perms != roles.banned:
+                login_user(site_user)
+                return redirect('/home/')
+            else:
+                flash("You have been banned from MLK Library")
         else:
             flash("Please register for an account.")
             return render_template('login.html', form=form)
@@ -267,8 +269,26 @@ def approve_requests():
 def change_roles():
     if(current_user.perms != roles.admin):
         return redirect("/home/")
-    form = promotion_form()
+    form = role_change_form()
     if form.validate_on_submit():
-        # target = user.query.filter_by(username = form.username.data)
+        target = user.query.filter_by(username = form.username.data).first()
         print(form.role_select.data)
-    return render_template("change_roles.html")
+        if target == None:
+            flash("No Users Found")
+        else:
+            match(form.role_select.data):
+                case roles.admin:
+                    target.perms = roles.admin
+                case roles.librarian:
+                    target.perms = roles.librarian
+                case roles.student_libraian:
+                    target.perms = roles.student_libraian
+                case roles.student:
+                    target.perms = roles.student
+                case roles.public:
+                    target.perms = roles.public
+                case roles.banned:
+                    target.perms = roles.banned
+            db.session.commit()
+            flash(f"User {target.username}'s role has been changed to {form.role_select.data}")
+    return render_template("change_roles.html", form = form)

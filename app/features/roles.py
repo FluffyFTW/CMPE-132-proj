@@ -4,3 +4,4 @@ class roles:
     student_libraian = "Student-Librarian"
     student = "Student"
     public = "Public"
+    banned = "Banned"

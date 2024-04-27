@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField
 from wtforms.validators import DataRequired
+from app.features.roles import roles
 
 class login_form(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -25,15 +26,22 @@ class order_form(FlaskForm):
     student_only = BooleanField('Student Only')
     submit = SubmitField('Order')
     
+class request_form(FlaskForm):
+    book = StringField('Book Name', validators=[DataRequired()])
+    quantity = IntegerField('1')
+    student_only = BooleanField('Student Only')
+    submit = SubmitField('Request')
+    
 class checkout_form(FlaskForm):
     book = StringField('Book Name', validators=[DataRequired()])
     submit = SubmitField('Checkout')
 
-class promotion_form(FlaskForm):
+class role_change_form(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    role_select = SelectField('Role', choices=[('Admin', 'Admin'), 
-                                            ('Librarian', 'Librarian'), 
-                                            ('Student_Lib', 'Student Librarian'),
-                                            ("Student", "Student"),
-                                            ("Public", "Public")])
-    submit = SubmitField('Checkout')
+    role_select = SelectField('Role', choices=[(roles.admin, 'Admin'), 
+                                            (roles.librarian, 'Librarian'), 
+                                            (roles.student_libraian, 'Student Librarian'),
+                                            (roles.student, 'Student'),
+                                            (roles.public, 'Public'),
+                                            (roles.banned, 'Banned')])
+    submit = SubmitField('Change')
