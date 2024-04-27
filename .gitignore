@@ -1,0 +1,5 @@
+**/__pycache__/
+**/token files/
+*.bashrc
+*.db
+*.pickle

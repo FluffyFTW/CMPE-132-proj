@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    body {
+        font-family: "Lato", sans-serif;
+        line-height: 1.6;
+        background-color: white;
+        color: #333;
+    }
+
+    .title h1 {
+        font-size: 2.2em;
+        color: #333;
+        margin-bottom: 1em;
+        text-align: center;
+    }
+
+    .email-item {
+        border: 1px solid #ddd;
+        padding: 1em;
+        margin-bottom: 1em;
+        border-radius: 5px;
+        background-color: #f8f8f8;
+        color: #333;
+    }
+
+    .email-item h1 {
+        font-size: 1.5em;
+        color: #333;
+    }
+
+    .email-item h2 {
+        font-size: 1em;
+        color: #333;
+    }
+
+    email-item h3 {
+        font-size: 1em;
+        color: #333;
+    }
+
+    email-item body {
+        font-size: 1em;
+        color: #0000;
+    }
+
+    .topnav input[type=text] {
+        padding: 6px;
+        border: none;
+        margin-top: 8px;
+        margin-right: 16px;
+        font-size: 17px;
+        border-radius: 25px;
+        border: 2px solid #5a606c;
+        padding: 20px;
+        width: 400px;
+        height: 50px; 
+    }
+
+</style>
+
+<div class="title">
+    <h1>Inbox</h1>
+</div>
+<div class="form-container">
+    <centre>
+        <form action="/inbox/" method="POST" novalidate>
+            {{form.hidden_tag()}}
+            <div class="input-group">
+                <div class="topnav">
+                    {{form.search_string(placeholder="Search..", )}}
+                </div>
+            </div>
+        </form>
+        <a class="btn btn-warning kerry" href="{{url_for('home')}}">Home</a>
+    </centre>
+</div>
+{% for email in emails %}
+<div class="email-item">
+    <h1>{{ email.m_subject }}</h1>
+    <h2>From: {{ email.m_sender }}</h2>
+    <h2>To: {{ email.m_to }}</h2>
+
+    <body>
+        {{ email.m_body }}
+    </body>
+</div>
+{% endfor %}
+{% endblock %}

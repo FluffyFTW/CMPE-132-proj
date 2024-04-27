@@ -1,0 +1,9 @@
+{% extends "base.html"%}
+
+{% block content %}
+<h1>Log In</h1>
+<form action="" method="POST" novalidate>
+    {{form.hidden_tag()}}
+    <a href="{{url_for('logout')}}">Log Out</a>
+</form>
+{% endblock %}

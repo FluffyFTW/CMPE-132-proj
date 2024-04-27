@@ -1,0 +1,111 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<style>
+   body {
+    font-family: "Lato", sans-serif;
+}
+
+
+
+.main-head{
+    height: 150px;
+    background: #FFF;
+   
+}
+
+.sidenav {
+    height: 100%;
+    background-color: #000;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+
+.main {
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+}
+
+@media screen and (max-width: 450px) {
+    .order-form{
+        margin-top: 10%;
+    }
+
+    .register-form{
+        margin-top: 10%;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .main{
+        margin-left: 40%; 
+    }
+
+    .sidenav{
+        width: 40%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+    }
+
+    .order-form{
+        margin-top: 80%;
+    }
+
+    .register-form{
+        margin-top: 20%;
+    }
+}
+
+
+.checkout-main-text{
+    margin-top: 20%;
+    padding: 60px;
+    color: #fff;
+}
+
+.checkout-main-text h2{
+    font-weight: 300;
+}
+
+.btn-black{
+    background-color: #000 !important;
+    color: #fff;
+}
+</style>
+<div class="sidenav">
+         <div class="checkout-main-text">
+            <h2>Request Books</h2>
+         </div>
+      </div>
+      <div class="main">
+         <div class="col-md-6 col-sm-12">
+            <div class="order-form">
+               <form action="/request_books/" method="POST" novalidate>
+                  {{form.hidden_tag()}}
+                  <div class="form-group">
+                     <label>Request Books</label>
+                     {{form.book(type="text", class="form-control", placeholder="Book Title")}}
+                     <!-- <input type="text" class="form-control" placeholder="User Name"> -->
+                     <label>Quantity</label>
+                     {{form.quantity(type="number", class="form-control", placeholder=1)}}
+                     <!-- <input type="text" class="form-control" placeholder="User Name"> -->
+                    <div class="form-group">
+                        <label>Student Only</label>
+                        {{form.student_only()}}
+                    </div>
+                  </div>
+                  {{form.submit(type="submit", class="btn btn-black")}}
+                  <!-- <button type="submit" class="btn btn-black">Checkout</button> -->
+                  <a href="{{ url_for('home') }}" class="btn btn-secondary">home</a>
+               </form>
+            </div>
+         </div>
+      </div>
+{% endblock %}

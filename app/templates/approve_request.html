@@ -1,0 +1,109 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<style>
+   body {
+    font-family: "Lato", sans-serif;
+}
+
+
+
+.main-head{
+    height: 150px;
+    background: #FFF;
+   
+}
+
+.sidenav {
+    height: 100%;
+    background-color: #000;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+
+.main {
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+}
+
+@media screen and (max-width: 450px) {
+    .order-form{
+        margin-top: 10%;
+    }
+
+    .register-form{
+        margin-top: 10%;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .main{
+        margin-left: 40%; 
+    }
+
+    .sidenav{
+        width: 40%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+    }
+
+    .order-form{
+        margin-top: 80%;
+    }
+
+    .register-form{
+        margin-top: 20%;
+    }
+}
+
+
+.checkout-main-text{
+    margin-top: 20%;
+    padding: 60px;
+    color: #fff;
+}
+
+.checkout-main-text h2{
+    font-weight: 300;
+}
+
+.btn-black{
+    background-color: #000 !important;
+    color: #fff;
+}
+</style>
+<div class="sidenav">
+         <div class="checkout-main-text">
+            <h2>Book Requests</h2>
+         </div>
+      </div>
+      <div class="main">
+         <div class="col-md-6 col-sm-12">
+            <div class="order-form">
+               <form action="/approve_request/" method="POST" novalidate>
+                  <div class="form-group">
+                     <h2>Request {{request.id}}</h2>
+                     <br/>
+                     <h3>Title: {{request.titles}}, {{request.amount}} copies</h3>
+                     <label>Requested by: {{requester.username}}</label>
+                     
+                  </div>
+                <div class="btn btn-black">
+                    <input type ="submit" name="action" value="Approve">
+                </div>
+                <div class="btn btn-black">
+                    <input type ="submit" name="action" value="Deny">
+                </div>
+                  <a href="{{ url_for('home') }}" class="btn btn-secondary">home</a>
+               </form>
+            </div>
+         </div>
+      </div>
+{% endblock %}
